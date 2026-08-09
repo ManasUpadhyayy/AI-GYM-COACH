@@ -1,5 +1,7 @@
 # 🏋️‍♂️ AI Real-time Gym Coach
 
+**🔗 [Try the live app](https://ai-gym-coach-l39mq9pbaxikbmfhr5szet.streamlit.app/)**
+
 Real-time pose detection with proactive AI voice coaching — built with Streamlit, MediaPipe, and Groq.
 
 The app watches you through your webcam, counts your reps and sets live, checks your form (joint angles, alignment, balance), and gives you spoken feedback from an AI coach as you train.
@@ -118,15 +120,6 @@ streamlit run main.py
 
 Open the sidebar, set your exercise/sets/reps, and click **Start Workout**.
 
-## Deploying to Streamlit Community Cloud
-
-1. Push this repo to GitHub (`.env`, `data.db`, and `ml_models/` will be skipped automatically thanks to `.gitignore`).
-2. Go to [share.streamlit.io](https://share.streamlit.io) and connect your repo, with `main.py` as the entry point.
-3. In your app's **Settings → Secrets**, add:
-   ```toml
-   GROQ_API_KEY = "your_actual_key_here"
-   ```
-4. Since `ml_models/` isn't in the repo, add a startup step (e.g. in `main.py` or a setup script) that downloads `pose_landmarker_full.task` from the URL above if it isn't already present on disk.
 
 ## Troubleshooting
 
