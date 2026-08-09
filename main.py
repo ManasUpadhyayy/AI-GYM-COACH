@@ -1,11 +1,12 @@
 import streamlit as st
 import os
 import time
+import urllib.request
 import pandas as pd
+from dotenv import load_dotenv
 from services.auth.login_wall import render_login_wall
 from services.state.session_defaults import initial_session_defaults
 from services.config.workout_config import EXERCISE_OPTIONS
-from dotenv import load_dotenv
 from services.ui.style_loader import load_css, inject_local_font, inject_webrtc_styles
 from services.persistence.exercise_repository import init_db
 from streamlit_webrtc import webrtc_streamer, WebRtcMode
@@ -16,7 +17,6 @@ from groq import Groq
 from services.coaching.llm import LLMCoach
 from services.coaching.tts import TextToSpeech
 from services.coaching.voice_pipeline import VoicePipeline, autoplay_audio
-import urllib.request
 
 MODEL_PATH = os.path.join(os.getcwd(), "ml_models", "pose_landmarker_full.task")
 MODEL_URL = "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task"
@@ -25,6 +25,7 @@ def ensure_model_downloaded():
     if not os.path.exists(MODEL_PATH):
         os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
         urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
+
   
 def main():
     load_dotenv()
@@ -59,8 +60,6 @@ def main():
             st.session_state.voice_pipeline = VoicePipeline(llm_coach, tts)
         except Exception as e:
             st.session_state.voice_pipeline = None
-            st.error(f"Voice pipeline failed to init: {e}")
-        
 
     workout_started = st.session_state.get("workout_started", False)
     
@@ -125,7 +124,7 @@ def main():
                         event="workout_completed",
                         exercise=exercise,
                         metrics={},
-                          user_name=st.session_state.get("username")
+                        user_name=st.session_state.get("username")
                     )
                     if result:
                         st.session_state.audio_to_play, st.session_state.coach_feedback = result
@@ -269,5 +268,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-                                 
