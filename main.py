@@ -98,7 +98,8 @@ def main():
                     result = st.session_state.voice_pipeline.process_event(
                         event="workout_started",
                         exercise=plan_exercise,
-                        metrics={}
+                        metrics={},
+                        user_name=st.session_state.get("username")
                     )
                     
                     if result:
@@ -123,7 +124,8 @@ def main():
                     result = st.session_state.voice_pipeline.process_event(
                         event="workout_completed",
                         exercise=exercise,
-                        metrics={}
+                        metrics={},
+                          user_name=st.session_state.get("username")
                     )
                     if result:
                         st.session_state.audio_to_play, st.session_state.coach_feedback = result

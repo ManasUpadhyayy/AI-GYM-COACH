@@ -7,12 +7,21 @@ class LLMCoach:
         self.history = []
         self.system_prompt = PROMPT
 
-    def give_feedback(self, event, issue):
+    def give_feedback(self, event, issue,user_name=None):
         prompt = f"Event: {event}"
 
         if issue:
             prompt += f" Form Issue: {issue}"
-
+        
+        
+        
+        if user_name:
+            prompt += (
+                f" User's name: {user_name}. Address them by name naturally "
+                f"sometimes (e.g. at the start of a set or workout, or for "
+                f"encouragement) — don't use it in every single message."
+            )
+            
         messages = [
             {"role": "system", "content": self.system_prompt},
             *self.history[-10:],

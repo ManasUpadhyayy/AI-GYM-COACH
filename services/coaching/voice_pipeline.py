@@ -63,7 +63,7 @@ class VoicePipeline:
 
         return None
 
-    def process_event(self, event, exercise, metrics):
+    def process_event(self, event, exercise, metrics,user_name=None):
         issue = self._find_form_issue(exercise, metrics)
 
         now = time.time()
@@ -77,7 +77,7 @@ class VoicePipeline:
             if now - self.last_spoken_at < 5:
                 return None
             
-        text = self.llm.give_feedback(event, issue)
+        text = self.llm.give_feedback(event, issue,user_name=user_name)
         voice = self.tts.speak(text)
 
         self.last_spoken_at = now
